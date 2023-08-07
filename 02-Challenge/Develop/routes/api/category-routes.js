@@ -23,7 +23,6 @@ router.get('/:id', async (req, res) => {
   let categoryId = req.params.id;
   // find one category by its `id` value
   try{ 
-  //  let currentCategory = await Category.findByPk(categoryId);
     let currentCategory = await Category.findOne({ 
       where: { id: req.params.id },
       // be sure to include its associated Products
@@ -38,7 +37,6 @@ router.get('/:id', async (req, res) => {
 
 router.post('/', async (req, res) => {
   // create a new category
-  // we want to capture the USER input from the browser(form input)
   let userInput = req.body;  // { category_name: "bingo" }
 
   let newCategory = await Category.create(req.body);
@@ -47,8 +45,9 @@ router.post('/', async (req, res) => {
   res.json({ msg: "Category Created Successfully"});
 });
 
-router.put('/:id', (req, res) => {
+router.put('/:id', async (req, res) => {
   // update a category by its `id` value
+  let categoryId = await Category.
 });
 
 router.delete('/:id', (req, res) => {

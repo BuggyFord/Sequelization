@@ -39,7 +39,7 @@ Product.init(
     },
     category_id:{
       type: DataTypes.INTEGER,
-      //references Categorie models ID  aks tutor, 
+      //references Categorie models ID, 
       //product belongsTo category, 
       //category hasMany products,
       references: {

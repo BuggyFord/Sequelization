@@ -22,7 +22,7 @@ router.get('/:id', (req, res) => {
       include: [{model: , through: }]
     });
     if (!productData) {
-      res.status(404).json({ messag: 'No product found with this id dummy!'});
+      res.status(404).json({ messag: 'No product found with this id!'});
       return;
     }
     res.status(200).json(productData);
@@ -119,7 +119,7 @@ router.delete('/:id', (req, res) => {
       where: {
         id: req.params.id
       }
-    });
+    })
     if (!productData) {
       res.status(404).json(productData);
     } catch (err) {
