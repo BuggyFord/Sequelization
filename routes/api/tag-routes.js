@@ -1,4 +1,5 @@
 const router = require('express').Router();
+const { any } = require('sequelize/types/lib/operators');
 const { Tag, Product, ProductTag } = require('../../models');
 
 // The `/api/tags` endpoint
@@ -23,6 +24,7 @@ router.get('/:id', async (req, res) => {
         include: [Product]
     });
     console.log("Data: ", currentTag);
+    res.json(currentTag);
   } catch(error) {
     res.status(500).json({error:"internal server error"});
   }
@@ -39,11 +41,35 @@ router.post('/', async (req, res) => {
 });
 
 router.put('/:id', (req, res) => {
-  // update a tag's name by its `id` value
+  Tag.update(req.body, {
+    where: { id: req.params.id },
+  })
+  .then((updatedTag) => {
+    if(!updatedTag[0]) {
+      res.status(404).json({ message: 'There is no tag with that id.'});
+      return;
+    }
+  })
+  .catch((err) => {
+    console.log(err);
+    res.status(500).json(err);
+  })  
 });
 
-router.delete('/:id', (req, res) => {
+router.delete('/:id', async (req, res) => {
   // delete on tag by its `id` value
+  try{
+    const tagDelete = await Tag.destroy({
+      where: { id: req.params.id}
+    });
+    if(!tagDelete) {
+      res.status(404).json({message: 'No tag with this id '});
+      return;
+    }
+    res.status(200).json(tagDelete)
+  }catch(error) {
+    res.status(500).json({error: "internal server error"})
+  }
 });
 
 module.exports = router;

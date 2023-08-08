@@ -4,19 +4,14 @@ const { Category, Product } = require('../../models');
 // The `/api/categories` endpoint
 
 router.get('/', async (req, res) => {
- 
-  // find all categories
-  // Find all users
   try{
     const categories = await Category.findAll({
       include:[{model:Product}]
     });
     res.status(200).json(categories);
-  }catch (error){
+  } catch(error){
    res.status(500).json({error:"internal server error"});
   }
-  
-  // be sure to include its associated Products
 });
 
 // '/api/categories/?
@@ -47,13 +42,21 @@ router.post('/', async (req, res) => {
   res.json({ msg: "Category Created Successfully"});
 });
 
-router.put('/:id', async (req, res) => {
-  // update a category by its `id` value
+router.put('/:id', (req, res) => {
   Category.update(req.body, {
-    where: {
-      
-    }
+    where: { id: req.params.id },
   })
+    .then((updatedCategory) => {
+      if (!updatedCategory[0]) {
+        res.status(404).json({ message: 'There is no category with that id. Try again.' });
+        return;
+      }
+      res.json({ message: 'Category updated successfully.' });
+    })
+    .catch((err) => {
+      console.log(err);
+      res.status(500).json(err);
+    });
 });
 
 router.delete('/:id', async (req, res) => {
