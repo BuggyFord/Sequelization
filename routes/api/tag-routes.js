@@ -5,10 +5,13 @@ const { Tag, Product, ProductTag } = require('../../models');
 router.get('/', async (req, res) => {
   try{
     const tag = await Tag.findAll({
-      include:[{model:Product, 
-        attributes: ["id", "product_name", "price", "stock", "category_id"]}
-      ]
-    });
+    include: [
+      {
+        model: Product,
+        through: ProductTag,
+      },
+    ],
+  });
     res.status(200).json(tag);
   } catch(error){
    res.status(500).json({error:"internal server error"});
