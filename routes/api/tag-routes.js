@@ -38,7 +38,7 @@ router.get('/:id', async (req, res) => {
 
 router.post('/', async (req, res) => {
   // create a new category
-  let newTag = await Category.create(req.body);
+  let newTag = await Tag.create(req.body);
 
  //  res.json(newTag);
   res.json({ msg: "Tag Created Successfully"});
