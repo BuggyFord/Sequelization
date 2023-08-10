@@ -169,6 +169,9 @@ Note that the functionality for creating the many-to-many relationship for produ
 
 After creating the models and routes, run `npm run seed` to seed data to your database so that you can test your routes.
 
+
+NOTE: Emily Arizcorreta assisted me with this as well as my tutor Erik Hoversten,
+
 ### Sync Sequelize to the Database on Server Start
 
 Create the code needed in `server.js` to sync the Sequelize models to the MySQL database on server start.
